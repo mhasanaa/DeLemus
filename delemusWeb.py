@@ -24,11 +24,12 @@ start, stop, MonthInit, h = 1,1273, 15, 23
 DN = ['N-Terminal Domain', 'RBD', 'Post-RBD','Subunit-2']
 DR = [[1,325],[326,525],[526,725],[726,1273]]
 colors = {
-    'background': 'white',
-    'text': 'gold'
+    'background': 'white123',
+    'text': 'gold',
+    'text2': 'black',
 }
-mark1 = {DR[i][1]: {'label': str(DR[i][1]), 'style': {'color': colors['text']}} for i in range(len(DN))}
-mark2 = {m.ceil( (DR[i][0]+DR[i][1])/2 ): {'label': DN[i], 'style': {'color': colors['text']}} for i in range(len(DN))}
+mark1 = {DR[i][1]: {'label': str(DR[i][1]), 'style': {'color': colors['text2']}} for i in range(len(DN))}
+mark2 = {m.ceil( (DR[i][0]+DR[i][1])/2 ): {'label': DN[i], 'style': {'color': colors['text2']}} for i in range(len(DN))}
 mark1.update(mark2)
 
 fig = px.scatter(df, x="Sites", y="MonthIndex",
@@ -70,7 +71,7 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
         step = None,
         value = MonthInit,
         id = 'month--slider',
-        marks = {str(MI[i]): {'label':str(M[i]) , 'style': {"transform": "rotate(15deg)",'color': colors['text']}} for i in range(len(dfMonth))}
+        marks = {str(MI[i]): {'label':str(M[i]) , 'style': {"transform": "rotate(15deg)",'color': colors['text2']}} for i in range(len(dfMonth))}
     ),
     
     html.Div(style={'backgroundColor': colors['background'],'width': '78%', 'display': 'inline-block', 'padding': '0 20'},children=[
@@ -143,7 +144,7 @@ def update_figure(selected_Month,slider_range):
                 hover_data=['Residues','SAPs','Variants','MonthIndex'],
                 range_x=[low, high], height=h,
                 title=Title)
-    fig.update_layout(transition_duration=230) #, hovermode='closest'
+    fig.update_layout(transition_duration=duration) #, hovermode='closest'
     fig.update_yaxes(title='')
     # fig.add_vline(x=614, line_width=1.3, line_dash="dash",line_color="black",row = 1)
     return fig
@@ -170,7 +171,7 @@ def update_SAP_Dist(hoverData):
         title = '<b>{}</b>'.format(Residues)
         dfSAP = pd.DataFrame({'AA':AA,'#Mutations (LogScale)':Freq_log10})
         fig = px.bar(dfSAP,x = 'AA',y = '#Mutations (LogScale)', height=h)
-        fig.update_layout(transition_duration=400, hovermode='closest')
+        fig.update_layout(transition_duration=duration, hovermode='closest')
         fig.add_annotation(x=0,y=1,xanchor='right',yanchor='bottom',
                         xref='paper',yref='paper',showarrow = False,align='right',
                         text=title)
@@ -181,7 +182,7 @@ def update_SAP_Dist(hoverData):
         title = '<b>{}</b>'.format('D614')
         dfSAP = pd.DataFrame({'AA':AA,'#Mutations (LogScale)':Freq_log10})
         fig = px.bar(dfSAP,x = 'AA',y = '#Mutations (LogScale)', height=h)
-        fig.update_layout(transition_duration=230, hovermode='closest')
+        fig.update_layout(transition_duration=duration, hovermode='closest')
         fig.add_annotation(x=0,y=1,xanchor='right',yanchor='bottom',
                         xref='paper',yref='paper',showarrow = False,align='right',
                         text=title)
