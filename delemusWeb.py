@@ -20,11 +20,11 @@ dfMonth = pd.read_excel(df_url,sheet_name='Sheet3')
 dfVar = pd.read_excel(df_url,sheet_name='VarDist')
 M = pd.read_excel(df_url,sheet_name='Months')['Month'].tolist()
 MI = pd.read_excel(df_url,sheet_name='Months')['MonthIndex'].tolist()
-start, stop, MonthInit, h = 1,1273, 15, 360
+start, stop, MonthInit, h = 1,1273, 15, 23
 DN = ['N-Terminal Domain', 'RBD', 'Post-RBD','Subunit-2']
 DR = [[1,325],[326,525],[526,725],[726,1273]]
 colors = {
-    'background': 'black',
+    'background': 'white',
     'text': 'gold'
 }
 mark1 = {DR[i][1]: {'label': str(DR[i][1]), 'style': {'color': colors['text']}} for i in range(len(DN))}
