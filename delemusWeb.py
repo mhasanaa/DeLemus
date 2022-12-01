@@ -20,7 +20,7 @@ dfMonth = pd.read_excel(df_url,sheet_name='Sheet3')
 dfVar = pd.read_excel(df_url,sheet_name='VarDist')
 M = pd.read_excel(df_url,sheet_name='Months')['Month'].tolist()
 MI = pd.read_excel(df_url,sheet_name='Months')['MonthIndex'].tolist()
-start, stop, MonthInit, h = 1,1273, 15, 23
+start, stop, MonthInit,h, duration = 1,1273, 15, 300, 80
 DN = ['N-Terminal Domain', 'RBD', 'Post-RBD','Subunit-2']
 DR = [[1,325],[326,525],[526,725],[726,1273]]
 colors = {
