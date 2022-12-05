@@ -50,21 +50,50 @@ for col in dfVar.columns:
 
 app.layout = html.Div(style={'backgroundColor': colors['background']}, children=[
     html.H1(
-        children='Dynamic Leading Mutations in Spike Glycoprotein of SARS-CoV-2',
+        children='Dynamic Leading Mutations',
         style={
             'font_family': 'Fantasy',
             'font_size': '40px',
             'textAlign': 'center',
             'color': colors['text']
     }),
-    html.H1(children='(DeLeMus)',
+    html.H1(children='(deLemus)',
         style={
             'textAlign': 'center',
             'color': colors['text'],
             'font_size': '40px',
             'font_family': 'cursive',
     }),
-    html.Br(),
+    
+    html.Div([
+         html.Div(dcc.Markdown('''
+        ## Formulation                 
+        The proposed L-index quantifies mutation strength of site-$\mathit{j}$ for month-$\mathit{t}$ based on the following equation:
+        
+        $
+        L_{j}{(t)}=
+        \mathit{s}_{j}{(t)} \cdot
+        \sqrt{ \sum^4_{i=1} \mathit{N}^2_{ij}{(t)} }
+        $
+    
+        * $\mathit{s}_{j}{(t)}$ : Number of amino acids (SAPs) for each site.
+        * $\mathit{N}_{j}{(t)}$ : Mutation strength for each site based on SVD calculation.
+    
+        ''', mathjax=True), style={'width': '49%', 'float': 'left', 'display': 'inline-block'}),
+        
+        html.Div(dcc.Markdown('''
+        ## Highlight
+        3 Variant of Interest (VoI) are surged up in March 2021: ε(B.1.427,B.1.429), η(B.1.525), and ι(B.1.526).
+        
+        Based on L-index, deLemus captured these mutations as shown in the interactive plot below:
+        
+        * S13I, W152C, L452R in ε(B.1.427,B.1.429)
+        * Q677H in η(B.1.525)
+        * T95I and D253G in ι(B.1.526)
+    
+        ''', mathjax=True),style={'width': '49%', 'display': 'inline-block'}),       
+        ], style={'padding': '10px 5px'}),
+                 
     dcc.Slider(
         dfMonth['MonthIndex'].min(),
         dfMonth['MonthIndex'].max(),
@@ -93,7 +122,6 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
         value=[start, 1234])
     , style={'width': '90%', 'padding': '0px 20px 20px 20px'}
     ),
-    
     html.H1(
         children='Leading Mutations Map in Spike Glycoprotein of SARS-CoV-2',
         style={
