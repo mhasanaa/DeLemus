@@ -9,6 +9,7 @@ import plotly.express as px
 import pandas as pd
 import math as m
 import plotly.graph_objects as go
+import datetime
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 df_url='https://docs.google.com/spreadsheets/d/e/2PACX-1vShcA7rp1YWrsac3P_QcPPpjzvOFjanT9egjRevOX4OezGGsLPuRJXSrDT5meQzvMeJN3XbQVpn2xIt/pub?output=xlsx'
@@ -31,7 +32,27 @@ colors = {
 mark1 = {DR[i][1]: {'label': str(DR[i][1]), 'style': {'color': colors['text2']}} for i in range(len(DN))}
 mark2 = {m.ceil( (DR[i][0]+DR[i][1])/2 ): {'label': DN[i], 'style': {'color': colors['text2']}} for i in range(len(DN))}
 mark1.update(mark2)
-
+Date = datetime.datetime.now().strftime('%Y-%m-%d')
+Summary = '''
+        ## Summary ({})
+        
+        3 Variant of Interest (VoI) are surged up in March 2021: ε(B.1.427,B.1.429), η(B.1.525), and ι(B.1.526).
+        
+        Based on L-index, deLemus captured these mutations as shown in the interactive plot below:
+        
+        * S13I, W152C, L452R in ε(B.1.427,B.1.429)
+        * Q677H in η(B.1.525)
+        * T95I and D253G in ι(B.1.526)
+        
+        
+        source:
+            
+        Designated Variant by WHO : https://www.who.int/activities/tracking-SARS-CoV-2-variants
+        
+        Sequence Database (GISAID) : https://gisaid.org/
+        
+        Phylogenetic Information (Nextrain) : https://nextstrain.org/
+        '''.format(Date)
 fig = px.scatter(df, x="Sites", y="MonthIndex",
                   size="delemus_score", hover_name="Residues",
                   hover_data=['Residues','Sites','delemus_score','SAPs','Variants','MonthIndex','Month','Domain'],
@@ -50,7 +71,7 @@ for col in dfVar.columns:
 
 app.layout = html.Div(style={'backgroundColor': colors['background']}, children=[
     html.H1(
-        children='Dynamic Leading Mutations',
+        children='Dynamic Leading Mutations in Spike Glycoprotein of SARS-CoV-2',
         style={
             'font_family': 'Fantasy',
             'font_size': '40px',
@@ -65,34 +86,9 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
             'font_family': 'cursive',
     }),
     
-    html.Div([
-         html.Div(dcc.Markdown('''
-        ## Formulation                 
-        The proposed L-index quantifies mutation strength of site-$\mathit{j}$ for month-$\mathit{t}$ based on the following equation:
-        
-        $
-        L_{j}{(t)}=
-        \mathit{s}_{j}{(t)} \cdot
-        \sqrt{ \sum^4_{i=1} \mathit{N}^2_{ij}{(t)} }
-        $
-    
-        * $\mathit{s}_{j}{(t)}$ : Number of amino acids (SAPs) for each site.
-        * $\mathit{N}_{j}{(t)}$ : Mutation strength for each site based on SVD calculation.
-    
-        ''', mathjax=True), style={'width': '49%', 'float': 'left', 'display': 'inline-block'}),
-        
-        html.Div(dcc.Markdown('''
-        ## Highlight
-        3 Variant of Interest (VoI) are surged up in March 2021: ε(B.1.427,B.1.429), η(B.1.525), and ι(B.1.526).
-        
-        Based on L-index, deLemus captured these mutations as shown in the interactive plot below:
-        
-        * S13I, W152C, L452R in ε(B.1.427,B.1.429)
-        * Q677H in η(B.1.525)
-        * T95I and D253G in ι(B.1.526)
-    
-        ''', mathjax=True),style={'width': '49%', 'display': 'inline-block'}),       
-        ], style={'padding': '10px 5px'}),
+    html.Div(
+        html.Div(dcc.Markdown(Summary, mathjax=True),style={'width': '49%', 'display': 'inline-block'})   
+        , style={'padding': '10px 5px'}),
                  
     dcc.Slider(
         dfMonth['MonthIndex'].min(),
