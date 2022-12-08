@@ -102,7 +102,7 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
     html.Div(style={'backgroundColor': colors['background'],'width': '78%', 'display': 'inline-block', 'padding': '0 20'},children=[
         dcc.Graph(
             id = 'monthly-leading-sites',
-            hoverData={'points': [{'customdata':['D614','G(11027),N(4),S(1)','α,β,γ',MonthInit]}]}
+            hoverData={'points': [{'customdata':['D614','G(11027),N(4),S(1)','α,β,ε,γ,ι',MonthInit]}]}
         )
     ]),
     
@@ -118,6 +118,7 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
         value=[start, 1234])
     , style={'width': '90%', 'padding': '0px 20px 20px 20px'}
     ),
+    
     html.H1(
         children='Leading Mutations Map in Spike Glycoprotein of SARS-CoV-2',
         style={
